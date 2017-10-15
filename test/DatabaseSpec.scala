@@ -11,7 +11,13 @@ import reactivemongo.bson.BSONDocument
 
 import scala.concurrent.ExecutionContext
 
-class DatabaseSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite with Injecting with BeforeAndAfterAll with IntegrationPatience{
+class DatabaseSpec extends PlaySpec
+  with ScalaFutures
+  with GuiceOneAppPerSuite
+  with Injecting
+  with BeforeAndAfterAll
+  with IntegrationPatience {
+
   override def fakeApplication() = GuiceApplicationBuilder().router(Router.empty).build()
 
   lazy val db = inject[Database]
@@ -26,8 +32,8 @@ class DatabaseSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite w
     db.col.find(BSONDocument.empty).one[BSONDocument].futureValue mustBe empty
   }
 
-  // This test passes
-  "should ensure index (collection doesn't exits" in {
+  // This tests fails
+  "should ensure index (collection doesn't exit)" in {
     db.col.indexesManager.ensure(Index(key = Seq("a" -> Ascending), background = true)).futureValue mustBe true
   }
 
@@ -35,8 +41,8 @@ class DatabaseSpec extends PlaySpec with ScalaFutures with GuiceOneAppPerSuite w
     db.col.insert(BSONDocument("a" -> 1)).futureValue.n mustBe 1
   }
 
-  "should ensure index (collection exist)" in {
-    db.col.indexesManager.ensure(Index(key = Seq("a" -> Ascending), background = true)).futureValue mustBe false
+  "should ensure index (collection exists)" in {
+    db.col.indexesManager.ensure(Index(key = Seq("a" -> Ascending), background = true)).futureValue
   }
 
 }
