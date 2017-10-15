@@ -14,5 +14,4 @@ class Database @Inject()(
 ) {
   val database: DefaultDB = Await.result(reactiveMongo.database, Duration.Inf)
   val col: BSONCollection = database.collection[BSONCollection]("col")
-  println(Await.result(col.count(), Duration.Inf))
 }
