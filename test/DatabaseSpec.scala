@@ -32,7 +32,7 @@ class DatabaseSpec extends PlaySpec
     db.col.find(BSONDocument.empty).one[BSONDocument].futureValue mustBe empty
   }
 
-  // This tests fails
+  // This tests passes
   "should ensure index (collection doesn't exit)" in {
     db.col.indexesManager.ensure(Index(key = Seq("a" -> Ascending), background = true)).futureValue mustBe true
   }
